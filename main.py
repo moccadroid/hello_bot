@@ -5,7 +5,7 @@ from google.appengine.api import urlfetch
 
 app = Flask(__name__)
 
-access_token = '<facebook_access_token>'
+access_token = 'EAAW895WLezkBAGisDrIsZBuazNgk2Ll8fnpjbtg1wXOrJu3aYyFVLrCg3ZABUD3S70vEZAWHsbeYR4lKSm8mrbIdkZAimsAo9FHEHkbZCZBW89Wy56mYWlDyTmD5bzQAFSscMNkBJxbH7KfaVGgCZAo5gIin0SQeBmLRvRzdIstSwZDZD'
 
 
 @app.route("/", methods=["GET"])
