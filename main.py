@@ -8,6 +8,11 @@ app = Flask(__name__)
 access_token = '<facebook_access_token>'
 
 
+@app.route("/", methods=["GET"])
+def root():
+    return "Hello World"
+
+
 # webhook for facebook to initialize the bot
 @app.route('/webhook', methods=['GET'])
 def get_webhook():
