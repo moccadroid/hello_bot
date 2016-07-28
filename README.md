@@ -1,10 +1,12 @@
 # hello_bot
 
 hello_bot is a skeleton for a facebook messenger bot to run on Google App Engine.<br>
-If you follow the tutorial below, your bot should be up and running in less than an hour :)
+If you follow the tutorial below, your bot should be up and running in less than an hour... or at least a couple of hours... at most a day :D
 
+If you find any errors in this tutorial, don't keep them! Send them to me, so we can make this tutorial even better. 
+The same obviously goes for any suggestions or ideas ;)
 
-## Tools & SDKs
+## Tools & SDK
 [PyCharm Community Edition](https://www.jetbrains.com/pycharm/download/) <br>
 [Python 2.7](https://www.python.org/downloads/ ) <br>
 [Git](https://git-scm.com/downloads) <br>
@@ -16,6 +18,9 @@ Check out Sample Code from https://github.com/moccadroid/hello_bot using git: <b
 ```
 git clone https://github.com/moccadroid/hello_bot.git
 ```
+
+If you have no idea what the above line does and why you should do that, maybe check out [this](http://rogerdudler.github.io/git-guide/) tutorial.
+In case you have a little more time check out [this](https://try.github.io/levels/1/challenges/1) too ;)
 
 ## Google App Engine
 Go to [Google App Engine](https://cloud.google.com/appengine/) and register an account. You will need a credit card, but Google offers a 60 days trial for free.
