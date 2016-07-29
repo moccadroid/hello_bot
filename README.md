@@ -22,34 +22,30 @@ git clone https://github.com/moccadroid/hello_bot.git
 If you have no idea what the above line does and why you should do that, maybe check out [this](http://rogerdudler.github.io/git-guide/) tutorial.
 In case you have a little more time check out [this](https://try.github.io/levels/1/challenges/1) too ;)
 
-## Google App Engine
-Go to [Google App Engine](https://cloud.google.com/appengine/) and register an account. You will need a credit card, but Google offers a 60 days trial for free.
+## Openshift
 
-After you've done this you'll be dropped into the Google Cloud Console. In the top right corner you'll see "My first Project" in the top menu bar. <br>
-Clicking on it reveals "Create a project.." which let's you create a new project. Do this :)
+Go to [Openshift](https://www.openshift.com/) and sign up for their free plan. The only restriction is that if you bot doesn't receive any request for 24 hours 
+your free Openshift gears will go into idle mode. That means the next request will take a little longer (up to 30 seconds) until the gear is booted up again.
 
-When you're done with this, Google again drops you in the dashboard of your new project.
-Click on the menu button in the top left corner and select "Development".
-Since your project still doesn't contain any sourcecode click on "Get started" and choose the first option <br>```Push code from a local Git repository to your Cloud Repository```
+Install the rhc tools from [RHC Tools](https://developers.openshift.com/managing-your-applications/client-tools.html) and afterwards run:
+`rhc setup` and follow the instructions. Make sure you create an ssh key for Openshift to make accessing it a lot easier.
 
-Open the Google Cloud SDK Shell, cd to your hello_bot directory on your computer and follow the instructions.
-(in step 3 remove the "\\" at the end of the first line)
+On the Openshift website create your first application and choose the Python 2.7 Cartrdige.
+<br>Set your application name and the domain under which it will be hosted.
+<br>Further down you see the point `Source Code`. Here add the hello_bot Git repository and the branch `openshift`.
 
-You should now have your hello_bot project pushed to your Google Cloud Repository, we're halfway there.
+Openshift will now pull the `hello_bot` from our github account and deploy it.
+<br>After this you can go to the URL you created for your Openshift application (something like https://yourbot-yourdomain.rhcloud.com) and should see "Hello World". 
 
-Start the Cloud Shell (the button in the top right corner next to the present) and type the following:
+In your Openshift Cartridge you see a link to the Source Code that looks something like this:
+<br>`ssh://xxxxxxxxxxxxxxxxxxxxxxxxxx@yourbot-yourdomain.rhcloud.com/~/git/yourbot.git/`
 
+Copy that and on your command line go to a folder where you want your code to reside and type the following:
 ```
-$ mkdir src
-$ cd src
-$ gcloud source repos clone default --project=<your project-name>
-$ cd default
-$ gcloud app deploy
+$ git clone ssh://xxxxxxxxxxxxxxxxxxxxxxxxxx@yourbot-yourdomain.rhcloud.com/~/git/yourbot.git/
 ```
 
-Open your browser and point it to `https://<project-name>.appspot.com`<br>
-If you see "Hello World", everything works and you can finally set up Facebook ;)
-
+Open this folder with your editor and you're set up to develop your first bot!! :)
 
 ## Facebook
 
@@ -71,16 +67,13 @@ Click on "Messenger", select your page and copy the Page Access Token.
 
 Remember your hello_bot's sourcecode you checked out before?
 <br> Go to your editor, open "main.py" and at the very top you see a variable "access_token". Add your Facebook Access Token here and save the file.
-<br> Open the Google Cloud SDK Shell again, navigate to your project folder and type the following commands:
+<br> On your command line, go to your bot directory (where the sourcecode is) and enter the following command:
 ```
-$ git commit -a -m "access_token changed" && git push --all google
+$ git commit -a -m "access_token changed" && git push
 ```
-You have no committed and pushed the changes back to the Google Cloud Git Repository.<br>
-Go back to your browser, open the Google Cloud Console, navigate to your code (should be in src/default) and type this:
-```
-$ git pull && gcloud app deploy
-```
-Google now deploys your bot to its services. You can check if everything worked out by pointing your browser to `https://<project-name>.appspot.com` and look for "Hello World".
+You have now committed and pushed the changes back to the Openshift Git Repository.<br>
+Openshift does everything for you now and deploys your code directly to your cartridge. 
+<br> Like before, go to your bot URL and look for "Hello World".
 
 Everything cool?
 
@@ -89,7 +82,7 @@ Great!! Let's tell Facebook where our bot is!
 On your Facebook developer page we left off, when you created the Page Access Token. <br>
 The next step is to setup the Webhook.<br>
 Copy the Access Token again, click on "setup webhook" (underneath) and paste it into the field that says "Verify Token".<br>
-In callback URL you enter `https://<project-name>.appspot.com/webhook`.<br>
+In callback URL you enter `https://yourbot-yourdomain.rhcloud.com/webhook`.<br>
 It's the same URL that you used to see the "Hello World", but this time with "/webhook" added at the end. <br>
 Facebook will POST all its communication to this endpoint, which in turn becomes the starting point for your bot.
 
@@ -114,6 +107,7 @@ The result in Postman should look like this:
 ```
 
 ## You did it!!!
+
 If you've made it this far (and everything worked out) you can finally go to your Facebook page and click on "message".
 <br>
 <br>
