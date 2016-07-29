@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, urllib
 from flask import Flask, request, abort
-import urlfetch
+import requests
 
 app = Flask(__name__)
 
@@ -60,7 +60,7 @@ def reply(recipient_id, message_text):
         }
     })
 
-    print data
+    #print data
 
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
-    r = urlfetch.fetch(url=url, headers=headers, method='POST', payload=data)
+    r = requests.post(url=url, headers=headers, data=data)
