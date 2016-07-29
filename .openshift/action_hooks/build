@@ -1,0 +1,5 @@
+# This build hook gets executed at the end of the build cycle before delpoy
+
+# Change to repo directory and run pip install with no caching
+cd ${OPENSHIFT_REPO_DIR}
+pip install -r requirements.txt --no-cache-dir
