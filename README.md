@@ -1,6 +1,6 @@
 # hello_bot
 
-hello_bot is a skeleton for a facebook messenger bot to run on Google App Engine.<br>
+hello_bot is a skeleton for a facebook messenger bot to run on Openshift.<br>
 If you follow the tutorial below, your bot should be up and running in less than an hour... or at least a couple of hours... at most a day :D
 
 If you find any errors in this tutorial, don't keep them! Send them to me, so we can make this tutorial even better. 
@@ -10,16 +10,15 @@ The same obviously goes for any suggestions or ideas ;)
 [PyCharm Community Edition](https://www.jetbrains.com/pycharm/download/) <br>
 [Python 2.7](https://www.python.org/downloads/ ) <br>
 [Git](https://git-scm.com/downloads) <br>
-[Google Cloud SDK](https://cloud.google.com/sdk/) <br>
+[RHC Tools](https://developers.openshift.com/managing-your-applications/client-tools.html)
 [Postman](https://www.getpostman.com/) <br>
 
 ## Hello Bot
-Check out Sample Code from https://github.com/moccadroid/hello_bot using git: <br>
-```
-git clone https://github.com/moccadroid/hello_bot.git
-```
 
-If you have no idea what the above line does and why you should do that, maybe check out [this](http://rogerdudler.github.io/git-guide/) tutorial.
+We have setup a very simple hello_bot that just throws everything you write back at you.
+It is based on the awesome [Flask Framework](http://flask.pocoo.org/) and should allow you to be up and coding in no time.
+
+If you have no idea about Git, maybe check out [this](http://rogerdudler.github.io/git-guide/) tutorial.
 In case you have a little more time check out [this](https://try.github.io/levels/1/challenges/1) too ;)
 
 ## Openshift
