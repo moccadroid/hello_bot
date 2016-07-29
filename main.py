@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 import json, urllib
 from flask import Flask, request, abort
-from google.appengine.api import urlfetch
+try:
+    from google.appengine.api import urlfetch
+except ImportError:
+    import urlfetch
+
 
 app = Flask(__name__)
 
-access_token = 'EAAW895WLezkBAGisDrIsZBuazNgk2Ll8fnpjbtg1wXOrJu3aYyFVLrCg3ZABUD3S70vEZAWHsbeYR4lKSm8mrbIdkZAimsAo9FHEHkbZCZBW89Wy56mYWlDyTmD5bzQAFSscMNkBJxbH7KfaVGgCZAo5gIin0SQeBmLRvRzdIstSwZDZD'
+access_token = 'facebook-access-token'
 
 
 @app.route("/", methods=["GET"])
