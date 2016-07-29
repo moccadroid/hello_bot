@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, urllib
 from flask import Flask, request, abort
-try:
-    from google.appengine.api import urlfetch
-except ImportError:
-    import urlfetch
-
+import urlfetch
 
 app = Flask(__name__)
 
