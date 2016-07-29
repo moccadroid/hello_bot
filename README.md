@@ -12,17 +12,20 @@ The same obviously goes for any suggestions or ideas ;)
 [Git](https://git-scm.com/downloads) <br>
 [Google Cloud SDK](https://cloud.google.com/sdk/) <br>
 [Postman](https://www.getpostman.com/) <br>
+[ngrok](https://ngrok.com/)<br>
 
 ## Hello Bot
-Check out Sample Code from https://github.com/moccadroid/hello_bot using git: <br>
-```
-git clone https://github.com/moccadroid/hello_bot.git
-```
 
 If you have no idea what the above line does and why you should do that, maybe check out [this](http://rogerdudler.github.io/git-guide/) tutorial.
 In case you have a little more time check out [this](https://try.github.io/levels/1/challenges/1) too ;)
+ 
 
 ## Google App Engine
+Check out Sample Code from https://github.com/moccadroid/hello_bot using git: <br>
+```
+$ git clone https://github.com/moccadroid/hello_bot.git
+```
+
 Go to [Google App Engine](https://cloud.google.com/appengine/) and register an account. You will need a credit card, but Google offers a 60 days trial for free.
 
 After you've done this you'll be dropped into the Google Cloud Console. In the top right corner you'll see "My first Project" in the top menu bar. <br>
@@ -75,7 +78,7 @@ Remember your hello_bot's sourcecode you checked out before?
 ```
 $ git commit -a -m "access_token changed" && git push --all google
 ```
-You have no committed and pushed the changes back to the Google Cloud Git Repository.<br>
+You have now committed and pushed the changes back to the Google Cloud Git Repository.<br>
 Go back to your browser, open the Google Cloud Console, navigate to your code (should be in src/default) and type this:
 ```
 $ git pull && gcloud app deploy
