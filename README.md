@@ -16,15 +16,19 @@ The same obviously goes for any suggestions or ideas ;)
 
 ## Hello Bot
 
+Check out Sample Code from https://github.com/moccadroid/hello_bot using git: <br>
+```
+$ git clone https://github.com/moccadroid/hello_bot.git
+```
+
+We have created a very simple hello_bot that just throws everything you write back at you.
+<br> It's based on the awesome [Flask Microframework](http://flask.pocoo.org/) and should help you be up and coding in no time.
+
 If you have no idea what the above line does and why you should do that, maybe check out [this](http://rogerdudler.github.io/git-guide/) tutorial.
 In case you have a little more time check out [this](https://try.github.io/levels/1/challenges/1) too ;)
  
 
 ## Google App Engine
-Check out Sample Code from https://github.com/moccadroid/hello_bot using git: <br>
-```
-$ git clone https://github.com/moccadroid/hello_bot.git
-```
 
 Go to [Google App Engine](https://cloud.google.com/appengine/) and register an account. You will need a credit card, but Google offers a 60 days trial for free.
 
