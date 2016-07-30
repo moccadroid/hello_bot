@@ -174,3 +174,7 @@ rules = {
     "cat": "https://lazycuriokitty.files.wordpress.com/2013/06/36345108.jpg"
 }
 ```
+Now in your terminal (in the folder where your code is) just type this again to push all the code to openshift:
+```
+git commit -a -m "dictionary" && git push
+``` 
