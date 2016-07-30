@@ -127,3 +127,50 @@ If you've made it this far (and everything worked out) you can finally go to you
 <br>
 <br>
 Type something... Raise your arms, and yell "Bots bots bots bots bots!!!" :D
+
+## What now??
+
+If you've never programmed, you now sit in front of your bot and have no idea what to do next. 
+<br> I have some suggestions you could try:
+
+Find the following line in your main.py:
+```
+reply(sender_id, message_text)
+```
+and change it to:
+```
+rules(sender_id, message_text)
+```
+
+Now post the following code at the end of your main.py:
+```
+def rules(recipient_id, message_text):
+    rules = {
+        "Hello": "World",
+        "Foo": "Bar"
+    }
+
+    if message_text in rules:
+        reply(recipient_id, rules[message_text])
+
+    else:
+        reply(recipient_id, "You have to write something I understand ;)")
+```
+
+## What have we done??
+
+We have added a new function that allows us to reploy to specific words that the user sends our bot.<br>
+```
+rules = {
+    "Hello": "World",
+    "Foo": "Bar"
+}
+``` 
+This is called a dictionary. You can add as many variables as you like. The left side of each entry is what the user has to enter, to get the right side.<br>
+You could for example send the user a link to a cat picture if they send your bot the word `cat`.
+Your dictionary could then look like this:
+```
+rules = {
+    "cat": "https://lazycuriokitty.files.wordpress.com/2013/06/36345108.jpg"
+}
+```

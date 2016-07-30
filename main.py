@@ -37,9 +37,21 @@ def post_webhook():
 
                     if 'text' in messaging_event['message']:
                         message_text = messaging_event['message']['text']
-                        reply(sender_id, message_text)
+                        rules(sender_id, message_text)
 
     return "ok", 200
+
+def rules(recipient_id, message_text):
+    rules = {
+        "Hello": "World",
+        "Foo": "Bar"
+    }
+
+    if message_text in rules:
+        reply(recipient_id, rules[message_text])
+
+    else:
+        reply(recipient_id, "You have to write something I understand ;)")
 
 
 def reply(recipient_id, message_text):
@@ -59,8 +71,6 @@ def reply(recipient_id, message_text):
             "text": message_text
         }
     })
-
-    #print data
 
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
     r = requests.post(url=url, headers=headers, data=data)
