@@ -24,6 +24,11 @@ In case you have a little more time check out [this](https://try.github.io/level
 
 ## Openshift
 
+###***DISCLAIMER***
+***Openshift just recently changed their free plan to something else. If you already have an Openshift Account you can still use it like described below. For all
+those of you, that want to now register an account, the below tutorial sadly doesn't work anymore. I'll update this section as soon as I find the time.
+In the meantime, just come and ask! We'll figure it out together :)***
+
 Go to [Openshift](https://www.openshift.com/) and sign up for their free plan. The only restriction is that if you bot doesn't receive any request for 24 hours 
 your free Openshift gears will go into idle mode. That means the next request will take a little longer (up to 30 seconds) until the gear is booted up again.
 
@@ -115,7 +120,7 @@ Open Postman and send a POST request to the following URL:<br>
 PAGE_ACCESS_TOKEN needs to be the same token that you've used twice now. Just replace it and POST the link.
 
 The result in Postman should look like this:
-```
+```json
 {
   "success": true
 }
@@ -134,16 +139,16 @@ If you've never programmed, you now sit in front of your bot and have no idea wh
 <br> I have some suggestions you could try:
 
 Find the following line in your main.py:
-```
+```python
 reply(sender_id, message_text)
 ```
 and change it to:
-```
+```python
 rules(sender_id, message_text)
 ```
 
 Now post the following code at the end of your main.py:
-```
+```python
 def rules(recipient_id, message_text):
     rules = {
         "Hello": "World",
@@ -160,7 +165,7 @@ def rules(recipient_id, message_text):
 ## What have we done??
 
 We have added a new function that allows us to reploy to specific words that the user sends our bot.<br>
-```
+```python
 rules = {
     "Hello": "World",
     "Foo": "Bar"
@@ -169,12 +174,105 @@ rules = {
 This is called a dictionary. You can add as many variables as you like. The left side of each entry is what the user has to enter, to get the right side.<br>
 You could for example send the user a link to a cat picture if they send your bot the word `cat`.
 Your dictionary could then look like this:
-```
+```python
 rules = {
     "cat": "https://lazycuriokitty.files.wordpress.com/2013/06/36345108.jpg"
 }
 ```
 Now in your terminal (in the folder where your code is) just type this again to push all the code to openshift:
 ```
-git commit -a -m "dictionary" && git push
+$ git commit -a -m "dictionary" && git push
 ``` 
+
+## Welcome back, we've udpated some stuff!!
+
+If you create a new project in Openshift and import the current code from here, you'll see a couple of new functions.
+<br> I'll now briefly explain what they mean and what they do :)
+
+### Replies
+```python
+def reply_with_text(recipient_id, message_text):
+    message = {
+        "text": message_text
+    }
+    reply_to_facebook(recipient_id, message)
+```
+Since Facebook allows you to reply not only with text but also pictures etc. we renamed the old `reply(recipient_id, message_text)` to `reply_with_text(recipient_id, message_text)`
+<br> It still works the same though.
+<br> If you want to reply with some fancy pictures and text you can now use this:
+```python
+title = "Hello"
+image = "http://cdn.shopify.com/s/files/1/0080/8372/products/tattly_jen_mussari_hello_script_web_design_01_grande.jpg"
+message_text = "My important message_text"
+
+element = create_generic_template_element(title, image, message_text)
+
+reply_with_generic_template(sender_id, element)
+```
+`create_generic_template_element(title, image, message_text)` converts your message into a form that facebook understands. 
+<br>Instead of just `message_text` you now send back this element. 
+<br>You can also send a list of elements if you like. That could look like this:
+```python
+element1 = create_generic_template_element("title1", "image1_url", "message1_text")
+element2 = create_generic_template_element("title2", "image2_url", message2_text")
+reply_with_generic_template(sender_id, [element1, element2])
+```
+
+### GET Urls
+Another small change is the function `get_url(url)`
+<br>With this method you can get data from other webservices. Let's take a look at an example!!
+Open Postman and enter this url `http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD`
+<br> If you have selected `GET` as the HTTP method and hit `Send` you'll see something like this:
+```json
+{
+  "type": "FeatureCollection",
+  "totalFeatures": 10,
+  "features": [
+    {
+      "type": "Feature",
+      "id": "WLANWRLOGD.fid--5e42d738_1565b782478_-7862",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.414651641971762,
+          48.18974868077848
+        ]
+      },
+      "geometry_name": "SHAPE",
+      "properties": {
+        "OBJECTID": 1029782,
+        "NAME": "Wiener Linien WLAN",
+        "ADRESSE": "3., Kundenzentrum Erdberg, Erdbergstraße 202 ",
+        "WEITERE_INFORMATIONEN": "http://blog.wienerlinien.at/gratis-wlan/",
+        "ANBIETER": "http://www.wienerlinien.at/",
+        "SE_ANNO_CAD_DATA": null
+      }
+    }, ...
+```
+This is the JSON reply of the Open Government Data Platform of Vienna, if you ask them about all the WLAN hotspots of the Wienerlinien. 
+<br> There is a TON more data if you check [here](https://open.wien.gv.at/site/datenkatalog/?search-term=&formatTopFilter_JSON=on&formatFilter_JSON=on&connection=and#showresults)
+<br> Make sure you select `JSON` under Filters.
+
+#### So what do we do with this?
+Well first of all we call this URL in Python. It would look like this:
+```python
+result = get_url(https://open.wien.gv.at/site/datenkatalog/?search-term=&formatTopFilter_JSON=on&formatFilter_JSON=on&connection=and#showresults)
+```
+Second we need to do something with the result. 
+<br>JSON is built like a tree. That means if you want to know the name of a particular WLAN hotspot, you have to go through the result in the same way, the JSON result is structured.
+An important thing to note is that JSON has objects and lists. If you see `{}` then it's an object and you can directly access it like this:
+```
+result["type"]
+```
+This would result in `Feature`.
+
+But if you see `[]` somewhere that means you can't just access it straight away but you have to *loop* over the included elements.
+So if we want to print all the names of the hotspots we need to do this:
+```
+for features in result["features"]
+    print features["properties"]["NAME"]
+```
+The result here would be `Wiener Linien Wlan`... 10 times... because that's how they roll! They named all their WLANs the same way :D
+
+If all of this makes absolutely **zero** sense to you, then I'd recommend you check out this tutorial by [CodeAcademy](https://www.codecademy.com/learn/python)
+<br> They have greate tutorials for free that should teach you the basics of Python in a couple of hours.
