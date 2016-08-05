@@ -214,14 +214,16 @@ reply_with_generic_template(sender_id, element)
 <br>You can also send a list of elements if you like. That could look like this:
 ```python
 element1 = create_generic_template_element("title1", "image1_url", "message1_text")
-element2 = create_generic_template_element("title2", "image2_url", message2_text")
+element2 = create_generic_template_element("title2", "image2_url", "message2_text")
 reply_with_generic_template(sender_id, [element1, element2])
 ```
+Facebook has even more possibilities for you to reply with structured messages. If you interested head over to the [Facebook Developers Page](https://developers.facebook.com/docs/messenger-platform/send-api-reference)
+and adapt the code to your likings :)
 
 ### GET Urls
 Another small change is the function `get_url(url)`
 <br>With this method you can get data from other webservices. Let's take a look at an example!!
-Open Postman and enter this url `http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD`
+<br> Open Postman and enter this url `http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD`
 <br> If you have selected `GET` as the HTTP method and hit `Send` you'll see something like this:
 ```json
 {
@@ -256,7 +258,7 @@ This is the JSON reply of the Open Government Data Platform of Vienna, if you as
 #### So what do we do with this?
 Well first of all we call this URL in Python. It would look like this:
 ```python
-result = get_url(https://open.wien.gv.at/site/datenkatalog/?search-term=&formatTopFilter_JSON=on&formatFilter_JSON=on&connection=and#showresults)
+result = get_url("https://open.wien.gv.at/site/datenkatalog/?search-term=&formatTopFilter_JSON=on&formatFilter_JSON=on&connection=and#showresults")
 ```
 Second we need to do something with the result. 
 <br>JSON is built like a tree. That means if you want to know the name of a particular WLAN hotspot, you have to go through the result in the same way, the JSON result is structured.
@@ -274,5 +276,5 @@ for features in result["features"]
 ```
 The result here would be `Wiener Linien Wlan`... 10 times... because that's how they roll! They named all their WLANs the same way :D
 
-If all of this makes absolutely **zero** sense to you, then I'd recommend you check out this tutorial by [CodeAcademy](https://www.codecademy.com/learn/python)
-<br> They have greate tutorials for free that should teach you the basics of Python in a couple of hours.
+If all of this makes absolutely ***zero*** sense to you, then I'd recommend you check out this tutorial by [CodeAcademy](https://www.codecademy.com/learn/python)
+<br> They have great tutorials for free that should teach you the basics of Python in a couple of hours.
