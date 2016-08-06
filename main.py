@@ -37,11 +37,11 @@ def post_webhook():
 
                     if 'text' in messaging_event['message']:
                         message_text = messaging_event['message']['text']
-                        #image = "http://cdn.shopify.com/s/files/1/0080/8372/products/tattly_jen_mussari_hello_script_web_design_01_grande.jpg"
-                        #element = create_generic_template_element("Hello", image, message_text)
-                        #reply_with_generic_template(sender_id, element)
+                        image = "http://cdn.shopify.com/s/files/1/0080/8372/products/tattly_jen_mussari_hello_script_web_design_01_grande.jpg"
+                        element = create_generic_template_element("Hello", image, message_text)
+                        reply_with_generic_template(sender_id, element)
 
-                        do_rules(sender_id, message_text)
+                        #do_rules(sender_id, message_text)
 
     return "ok", 200
 
