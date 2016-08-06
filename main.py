@@ -64,3 +64,7 @@ def reply(recipient_id, message_text):
 
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
     r = urlfetch.fetch(url=url, headers=headers, method='POST', payload=data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
