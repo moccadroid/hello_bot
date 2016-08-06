@@ -41,7 +41,7 @@ def post_webhook():
                         element = create_generic_template_element("Hello", image, message_text)
                         reply_with_generic_template(sender_id, [element])
 
-                        # do_rules(sender_id, message_text)
+                        #do_rules(sender_id, message_text)
 
     return "ok", 200
 
@@ -99,6 +99,8 @@ def reply_to_facebook(recipient_id, message):
         },
         "message": message
     })
+
+    print data
 
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
     r = requests.post(url=url, headers=headers, data=data)
