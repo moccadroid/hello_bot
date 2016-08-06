@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, urllib
 from flask import Flask, request, abort
-import urlfetch
+import requests
 
 app = Flask(__name__)
 
@@ -37,12 +37,54 @@ def post_webhook():
 
                     if 'text' in messaging_event['message']:
                         message_text = messaging_event['message']['text']
-                        reply(sender_id, message_text)
+                        image = "http://cdn.shopify.com/s/files/1/0080/8372/products/tattly_jen_mussari_hello_script_web_design_01_grande.jpg"
+                        element = create_generic_template_element("Hello", image, message_text)
+                        reply_with_generic_template(sender_id, element)
+
+                        # do_rules(sender_id, message_text)
 
     return "ok", 200
 
 
-def reply(recipient_id, message_text):
+def get_url(url):
+    result = request.get(url)
+    return json.loads(result.content)
+
+
+def do_rules(recipient_id, message_text):
+    rules = {
+        "Hello": "World",
+        "Foo": "Bar"
+    }
+
+    if message_text in rules:
+        reply_with_text(recipient_id, rules[message_text])
+
+    else:
+        reply_with_text(recipient_id, "You have to write something I understand ;)")
+
+
+def reply_with_text(recipient_id, message_text):
+    message = {
+        "text": message_text
+    }
+    reply_to_facebook(recipient_id, message)
+
+
+def reply_with_generic_template(recipient_id, elements):
+    message = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": elements
+            }
+        }
+    }
+    reply_to_facebook(recipient_id, message)
+
+
+def reply_to_facebook(recipient_id, message):
     params = {
         "access_token": access_token
     }
@@ -55,15 +97,19 @@ def reply(recipient_id, message_text):
         "recipient": {
             "id": recipient_id
         },
-        "message": {
-            "text": message_text
-        }
+        "message": message
     })
 
-    print data
-
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
-    r = urlfetch.fetch(url=url, headers=headers, method='POST', payload=data)
+    r = requests.post(url=url, headers=headers, data=data)
+
+
+def create_generic_template_element(title, image_url, subtitle):
+    return {
+        "title": title,
+        "image_url": image_url,
+        "subtitle": subtitle
+    }
 
 
 if __name__ == '__main__':

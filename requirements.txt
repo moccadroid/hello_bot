@@ -5,5 +5,5 @@
 #
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
 Flask==0.10
-urlfetch>=1.0.2
+requests==2.10.0
 gunicorn>=19.6.0
