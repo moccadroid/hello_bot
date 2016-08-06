@@ -100,6 +100,8 @@ def reply_to_facebook(recipient_id, message):
         "message": message
     })
 
+    print data
+
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
     r = requests.post(url=url, headers=headers, data=data)
 
