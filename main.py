@@ -46,6 +46,8 @@ def post_webhook():
     return "ok", 200
 
 
+# helper functions
+
 def get_url(url):
     result = request.get(url)
     return json.loads(result.content)
@@ -63,6 +65,8 @@ def do_rules(recipient_id, message_text):
     else:
         reply_with_text(recipient_id, "You have to write something I understand ;)")
 
+
+# reply methods
 
 def reply_with_text(recipient_id, message_text):
     message = {
@@ -83,6 +87,8 @@ def reply_with_generic_template(recipient_id, elements):
     }
     reply_to_facebook(recipient_id, message)
 
+
+# function to send a message to facebook
 
 def reply_to_facebook(recipient_id, message):
     params = {
@@ -105,6 +111,8 @@ def reply_to_facebook(recipient_id, message):
     url = "https://graph.facebook.com/v2.6/me/messages?" + urllib.urlencode(params)
     r = requests.post(url=url, headers=headers, data=data)
 
+
+# create template elements for carousel, images with buttons, quick replies, …
 
 def create_generic_template_element(title, image_url, subtitle):
     return {
