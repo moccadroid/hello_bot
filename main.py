@@ -47,7 +47,7 @@ def post_webhook():
 
 
 def get_url(url):
-    result = request.get(url)
+    result = requests.get(url)
     return json.loads(result.content)
 
 
