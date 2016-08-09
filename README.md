@@ -221,8 +221,37 @@ So if we want to print all the names of the hotspots we need to do this:
 for features in result["features"]
     print features["properties"]["NAME"]
 ```
-The result here would be `Wiener Linien Wlan`... 10 times... because that's how they roll! They named all their WLANs the same way :D
+The result here would be `Wiener Linien WLAN`... 10 times... because that's how they roll! They named all their WLANs the same way :D
+
+You can take it a step further and create a carousel with the 10 `Wiener Linien WLAN` results:
+
+```
+if 'text' in messaging_event['message']:
+    message_text = messaging_event['message']['text']
+
+    if message_text == "wifi":
+        # Fetch the data from Wiener Linien's API
+        result = get_url("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD")
+
+        # Create a list which we'll use for collecting the wifi router results
+        entries = []
+
+        # Iterate through each entry in the results
+        for entry in result["features"]:
+            entry = create_generic_template_element(feature["properties"]["NAME"], "http://blog.wienerlinien.at/wp-content/uploads/2016/04/header_wifi.jpg", entry["properties"]["ADRESSE"])
+            # Add each wifi router to the list we've created above
+            entries.append(entry)
+        # Add each wifi router to the list we've created above
+        reply_with_generic_template(sender_id, entries)
+        # After we've sent the message with the generic template we stop the code
+        return "ok", 200
+```
+
+Here's how it looks:
+
+![Carousel with Wiener Linien WLAN Hotspots](/demo/carousel-wiener-linien.png)
+
+---
 
 If all of this makes absolutely ***zero*** sense to you, then I'd recommend you check out this tutorial by [CodeAcademy](https://www.codecademy.com/learn/python)
 <br> They have great tutorials for free that should teach you the basics of Python in a couple of hours.
-
