@@ -88,6 +88,19 @@ def reply_with_generic_template(recipient_id, elements):
     reply_to_facebook(recipient_id, message)
 
 
+def reply_with_image(recipient_id, url):
+    message = {
+        "attachment": {
+            "type": "image",
+            "payload": {
+                "template_type": "image",
+                "url": url
+            }
+        }
+    }
+    reply_to_facebook(recipient_id, message)
+
+
 # function to send a message to facebook
 
 def reply_to_facebook(recipient_id, message):
