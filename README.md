@@ -1,8 +1,8 @@
-# hello_bot
+# 🤖 Creating your Facebook Messenger bot with hello_bot
 
 hello_bot is a python skeleton for a facebook messenger bot based on [Flask Microframework](http://flask.pocoo.org/).<br>
 
-We have tutorials and specific code for Openshift and Google App Engine. Just check out the `openshift` or `appengine` branches 
+We have tutorials and specific code for Openshift and Google App Engine. Just check out the `openshift` or `appengine` branches
 to see the respective tutorials and how to set everything up.
 
 To run your bot you have a couple of choices (obviously there are countless more, but these are the ones we suggest)
@@ -14,42 +14,58 @@ Choose one, and come back here when you've set up how you want to run your bot :
 
 ***Welcome Back!!***
 
-## Facebook
+## Setup the Facebook App
 
-We're halfway through, so now we need to set up Facebook, to work with our hello_bot.
+1. We're halfway through, so now we need to set up Facebook, to work with our hello_bot.
 If you haven't already, go and create a Facebook Developer Account [here](https://developers.facebook.com).
-<br>While you are there, create a Facebook Page that you will use with and for your bot.
+2. While you are there, create a Facebook Page that you will use with and for your bot.
+<br>
 <br>I will wait :)
 
 Done?<br>
 Nice!
 
-Log in to your Developer Account and create a new App. If Facebook asks you what type you want, just click "basic setup" at the bottom, fill out the fields and choose "Apps for Pages" as your category.
+3. Log in to your Developer Account and create a new App.
 
-In your new App you see the menu point "+Add Product" on the left side. I suggest you click on it to see what happens :)
+![Create a new FB App](/demo/fb-add-app.png)
+
+If Facebook asks you what type you want, just click "basic setup" at the bottom, fill out the fields and choose "Apps for Pages" as your category.
+
+4. In your new App you see the menu point "+Add Product" on the left side. I suggest you click on it to see what happens :)
 <br>
 The next couple of steps might seem a little confusing at first, but bear with me, we're almost done.
 
-Click on "Messenger", select your page and copy the Page Access Token.
+5. Click on "Messenger", select your page and copy the Page Access Token.
 
-Remember your hello_bot's sourcecode you checked out before?
-<br> Go to your editor, open "main.py" and at the very top you see a variable "access_token". Add your Facebook Access Token here and save the file.
-<br> On your command line, go to your bot directory (where the sourcecode is) and enter the following command:
+![Copy the FB Page Access Token](/demo/fb-page-access-token.png)
+
+<br> Remember your hello_bot's sourcecode you checked out before?
+
+## Setup the Bot
+
+1. Go to your editor, open "main.py" and at the very top you see a variable "access_token". Add your Facebook Access Token here and save the file.
+2. On your command line, go to your bot directory (where the sourcecode is) and enter the following command to commit and push the changes back to the Openshift Git Repository:
+
 ```
 $ git commit -a -m "access_token changed" && git push
 ```
-You have now committed and pushed the changes back to the Openshift Git Repository.<br>
-Openshift does everything for you now and deploys your code directly to your cartridge. 
+
+Openshift does everything for you now and deploys your code directly to your cartridge.
+
 <br> Like before, go to your bot URL and look for "Hello World".
 
 Everything cool?
 
-Great!! Let's tell Facebook where our bot is!
+Great!!
+
+## Let's tell Facebook where our bot is!
 
 On your Facebook developer page we left off, when you created the Page Access Token. <br>
 The next step is to setup the Webhook.<br>
+
 Copy the Access Token again, click on "setup webhook" (underneath) and paste it into the field that says "Verify Token".<br>
 In callback URL you enter `https://yourbot-yourdomain.rhcloud.com/webhook`.<br>
+
 It's the same URL that you used to see the "Hello World", but this time with "/webhook" added at the end. <br>
 Facebook will POST all its communication to this endpoint, which in turn becomes the starting point for your bot.
 
@@ -59,14 +75,23 @@ Click on "verify and save".
 
 You should now see a green checkmark saying "Complete". Select your Facebook page underneath to subscribe your webhook to it. People can now chat with your bot by messaging your Facebook page.
 
+![Facebook Webhook Complete](/demo/fb-webhook-complete.png)
 
 One more step and we're done (for real this time ;))
+
+## Trigger the Facebook App to send messages
 
 Open Postman and send a POST request to the following URL:<br>
 `https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=PAGE_ACCESS_TOKEN`<br>
 PAGE_ACCESS_TOKEN needs to be the same token that you've used twice now. Just replace it and POST the link.
 
-The result in Postman should look like this:
+On OSX you can copy & paste the command below into the Terminal to trigger the Facebook app to send messages. Use the PAGE_ACCESS_TOKEN mentioned above.
+
+```
+curl -X POST "https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=<PAGE_ACCESS_TOKEN>"
+```
+
+The result in Postman or in the Terminal should look like this:
 ```json
 {
   "success": true
@@ -80,9 +105,11 @@ If you've made it this far (and everything worked out) you can finally go to you
 <br>
 Type something... Raise your arms, and yell "Bots bots bots bots bots!!!" :D
 
-## What now??
+![Message your Bot](/demo/fb-message-bot.png)
 
-If you've never programmed, you now sit in front of your bot and have no idea what to do next. 
+## What's next??
+
+If you've never programmed, you now sit in front of your bot and have no idea what to do next.
 <br> I have some suggestions you could try:
 
 Find the following line in your main.py:
@@ -117,7 +144,7 @@ rules = {
     "Hello": "World",
     "Foo": "Bar"
 }
-``` 
+```
 This is called a dictionary. You can add as many variables as you like. The left side of each entry is what the user has to enter, to get the right side.<br>
 You could for example send the user a link to a cat picture if they send your bot the word `cat`.
 Your dictionary could then look like this:
@@ -129,7 +156,7 @@ rules = {
 Now in your terminal (in the folder where your code is) just type this again to push all the code to openshift:
 ```
 $ git commit -a -m "dictionary" && git push
-``` 
+```
 
 ## Welcome back, we've udpated some stuff!!
 
@@ -156,8 +183,8 @@ element = create_generic_template_element(title, image, message_text)
 
 reply_with_generic_template(sender_id, element)
 ```
-`create_generic_template_element(title, image, message_text)` converts your message into a form that facebook understands. 
-<br>Instead of just `message_text` you now send back this element. 
+`create_generic_template_element(title, image, message_text)` converts your message into a form that facebook understands.
+<br>Instead of just `message_text` you now send back this element.
 <br>You can also send a list of elements if you like. That could look like this:
 ```python
 element1 = create_generic_template_element("title1", "image1_url", "message1_text")
@@ -198,7 +225,7 @@ Another small change is the function `get_url(url)`
       }
     }, ...
 ```
-This is the JSON reply of the Open Government Data Platform of Vienna, if you ask them about all the WLAN hotspots of the Wienerlinien. 
+This is the JSON reply of the Open Government Data Platform of Vienna, if you ask them about all the WLAN hotspots of the Wienerlinien.
 <br> There is a TON more data if you check [here](https://open.wien.gv.at/site/datenkatalog/?search-term=&formatTopFilter_JSON=on&formatFilter_JSON=on&connection=and#showresults)
 <br> Make sure you select `JSON` under Filters.
 
@@ -207,7 +234,7 @@ Well first of all we call this URL in Python. It would look like this:
 ```python
 result = get_url("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD")
 ```
-Second we need to do something with the result. 
+Second we need to do something with the result.
 <br>JSON is built like a tree. That means if you want to know the name of a particular WLAN hotspot, you have to go through the result in the same way, the JSON result is structured.
 An important thing to note is that JSON has objects and lists. If you see `{}` then it's an object and you can directly access it like this:
 ```
@@ -225,4 +252,3 @@ The result here would be `Wiener Linien Wlan`... 10 times... because that's how 
 
 If all of this makes absolutely ***zero*** sense to you, then I'd recommend you check out this tutorial by [CodeAcademy](https://www.codecademy.com/learn/python)
 <br> They have great tutorials for free that should teach you the basics of Python in a couple of hours.
-
