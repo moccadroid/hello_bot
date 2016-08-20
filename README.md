@@ -245,7 +245,7 @@ This would result in `Feature`.
 
 But if you see `[]` somewhere that means you can't just access it straight away but you have to *loop* over the included elements.
 So if we want to print all the names of the hotspots we need to do this:
-```
+```python
 for features in result["features"]
     print features["properties"]["NAME"]
 ```
@@ -253,7 +253,7 @@ The result here would be `Wiener Linien WLAN`... 10 times... because that's how 
 
 You can take it a step further and create a carousel with the 10 `Wiener Linien WLAN` results:
 
-```
+```python
 if "message" in messaging_event:
 
     sender_id = messaging_event['sender']['id']
@@ -290,7 +290,7 @@ Here's how it looks:
 
 In the next code example you can extract the latitude and longitude values when receiving the current location and further process it according to your needs. In our example below we return the address via making a call to the Google Maps Public API with our latitude and longitude values.
 
-```
+```python
 if "message" in messaging_event:
 
     sender_id = messaging_event['sender']['id']
@@ -309,6 +309,66 @@ if "message" in messaging_event:
 ```
 
 ![Address of the current location](/demo/example-current-location.png)
+
+## How to create a simple JSON Database
+
+In this example we'll save the `sender_id` and the `created_at` date of a Facebook User writing with your Messenger bot in a JSON file that's stored in your project directory.
+
+Here we go:
+
+Create a file `data.json` in your directory with the content `{}`.
+
+Import datetime to be able to save the date of creation:
+```python
+from datetime import datetime
+```
+
+Define the database json file in a global constant variable:
+`DB_FILE = "data.json"`
+
+Load the JSON file and save it as `user_db` variable:
+```python
+with open('data.json') as data_file:
+    user_db = json.load(data_file)
+```
+
+Define a function to save the `json` file:
+```python
+def save_db():
+    with open('data.json', 'w') as data_file:
+        json.dump(user_db, data_file)
+```
+
+Here's how you save the `sender_id` and the `created_at` timestamp to the JSON:
+
+```python
+if "message" in messaging_event:
+
+    sender_id = messaging_event['sender']['id']
+
+    # writing and actually persisting the db
+    if sender_id not in user_db:
+        userdata = {
+            "sender_id": sender_id,
+            "created_at": str(datetime.now())
+        }
+        user_db[sender_id] = userdata
+        save_db()
+    else:
+        userdata = user_db[sender_id]
+```
+
+That's how the entry in the `data.json` would look like this (there would be an actual ID instead of USER_SESSION_ID)
+```json
+{
+    "USER_SESSION_ID": {
+        "sender_id": "USER_SESSION_ID",
+        "created_at": "CREATED_AT_DATE"
+    }
+}
+```
+
+Here's the example [gist](https://gist.github.com/sido378/4347a34260f3def303c37f0b4769ba67) by [sido378](https://github.com/sido378).
 
 ---
 
