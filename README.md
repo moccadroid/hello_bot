@@ -225,6 +225,7 @@ Another small change is the function `get_url(url)`
       }
     }, ...
 ```
+
 This is the JSON reply of the Open Government Data Platform of Vienna, if you ask them about all the WLAN hotspots of the Wienerlinien.
 <br> There is a TON more data if you check [here](https://open.wien.gv.at/site/datenkatalog/?search-term=&formatTopFilter_JSON=on&formatFilter_JSON=on&connection=and#showresults)
 <br> Make sure you select `JSON` under Filters.
@@ -253,30 +254,61 @@ The result here would be `Wiener Linien WLAN`... 10 times... because that's how 
 You can take it a step further and create a carousel with the 10 `Wiener Linien WLAN` results:
 
 ```
-if 'text' in messaging_event['message']:
-    message_text = messaging_event['message']['text']
+if "message" in messaging_event:
 
-    if message_text == "wifi":
-        # Fetch the data from Wiener Linien's API
-        result = get_url("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD")
+    sender_id = messaging_event['sender']['id']
 
-        # Create a list which we'll use for collecting the wifi router results
-        entries = []
+    if 'text' in messaging_event['message']:
+        message_text = messaging_event['message']['text']
 
-        # Iterate through each entry in the results
-        for entry in result["features"]:
-            entry = create_generic_template_element(feature["properties"]["NAME"], "http://blog.wienerlinien.at/wp-content/uploads/2016/04/header_wifi.jpg", entry["properties"]["ADRESSE"])
+        if message_text == "wifi":
+            # Fetch the data from Wiener Linien's API
+            result = get_url("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:4326&outputFormat=json&typeName=ogdwien:WLANWRLOGD")
+
+            # Create a list which we'll use for collecting the wifi router results
+            entries = []
+
+            # Iterate through each entry in the results
+            for entry in result["features"]:
+                entry = create_generic_template_element(feature["properties"]["NAME"], "http://blog.wienerlinien.at/wp-content/uploads/2016/04/header_wifi.jpg", entry["properties"]["ADRESSE"])
+
+                # Add each wifi router to the list we've created above
+                entries.append(entry)
+
             # Add each wifi router to the list we've created above
-            entries.append(entry)
-        # Add each wifi router to the list we've created above
-        reply_with_generic_template(sender_id, entries)
-        # After we've sent the message with the generic template we stop the code
-        return "ok", 200
+            reply_with_generic_template(sender_id, entries)
+
+            # After we've sent the message with the generic template we stop the code
+            return "ok", 200
 ```
 
 Here's how it looks:
 
-![Carousel with Wiener Linien WLAN Hotspots](/demo/carousel-wiener-linien.png)
+![Carousel with Wiener Linien WLAN Hotspots](/demo/example-carousel-wiener-linien.png)
+
+### Working with the Current Location
+
+In the next code example you can extract the latitude and longitude values when receiving the current location and further process it according to your needs. In our example below we return the address via making a call to the Google Maps Public API with our latitude and longitude values.
+
+```
+if "message" in messaging_event:
+
+    sender_id = messaging_event['sender']['id']
+
+    # Check the message input for an attachment
+    if 'attachments' in messaging_event['message']:
+        # Extract the latitue and longitude values
+        lat = messaging_event['message']['attachments'][0]['payload']['coordinates']['lat']
+        lng = messaging_event['message']['attachments'][0]['payload']['coordinates']['long']
+
+        # Make a Google Maps Public API call with the latitude and longitude values
+        google_maps_results = get_url('http://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&sensor=false' % (lat, lng))
+
+        # Reply with the address of the location via text message (as unicode with u'' when using strings)
+        reply_with_text(sender_id, u'I found this address for your location: 📍' + google_maps_results['results'][0]['formatted_address'])
+```
+
+![Address of the current location](/demo/example-current-location.png)
 
 ---
 
