@@ -2,55 +2,62 @@
 
 Let's get started!
 
-In this tutorial you'll get a Telegram Bot up and running on your local enviornment. Later you'll also learn how to deploy it to your OpenShift server.
+In this tutorial you'll get a Telegram Bot up and running on your local environment. Later you'll also learn how to deploy the bot to your OpenShift server.
 
 We'll use the Python library provided by Telegram called [python-telegram-bot](https://github.com/python-telegram-bot/).
 
-To begin, you'll need a Telegram Access Token for your Bot.
+### Generate an Access Token
 
-1. Create or sign in to your [Telegram Account](https://web.telegram.org/)
+To begin, you'll need a Telegram Access Token for your bot.
 
-2. Search for `@BotFather`
+1. Create or sign in to your [Telegram Account (Web Client)](https://web.telegram.org/)
+
+2. Search for [`@BotFather`](https://web.telegram.org/#/im?p=@BotFather)
 
 	![Search for @BotFather](demo/telegram/botfather_conversation.png "Search for @BotFather")
 
-3. Initialize a conversation with the `@BotFather`
+3. Initialize a conversation with the `@BotFather` by pressing the `START` button
 
 	![Initialize Conversation with BotFather](demo/telegram/botfather_init.png "Initialize Conversation with BotFather")
-	
+
 4. Create a new bot by typing `/newbot` and follow the guided process.
 
-	Congratulations, you've created your Telegram Bot :) 
+	Congratulations, you've created your Telegram Bot 🎈🙂
 
-5. Generate an access token which you'll need to communicate with your bot by typing `/token`
+5. Next, generate an access token which you'll need to communicate with your bot by typing `/token` and copy it.
 
-6. Replace your Telegram access token in `telegram.py` by `YOUR TOKEN`
+### Setting up the code
+
+6. Replace your `YOUR TOKEN` in the file `hellobot.py` in the `telegram` directory by the access token you just generated.
 
 7. Fire up a command line and install the `python-telegram-bot` library through your command line by running:
 
 	`pip install python-telegram-bot`
 
-9. To start your bot run `python telegram/bot.py` (stop your bot by running CTRL+Z)
+9. To start your bot run `python telegram/hellobot.py` in your command line (stop your bot by running CTRL+Z).
 
-10. Your Bot supports the following inputs:
-	* /start
-	![/start command](demo/telegram/botfather_start.png "/start command")
-	* /hello
-	![/hello command](demo/telegram/botfather_hello.png "/hello command")
-	* /help
-	![/help command](demo/telegram/botfather_help.png "/help command")
-	* /caps your text
-	![Caps text](demo/telegram/botfather_caps.png "Caps text")
-	* Echoes messages
-	![Echo text](demo/telegram/botfather_echo.png "Echo text")
+Go and give it a try! Start chatting with your bot and trigger the `/start` command. 🎉
 
-### Deploying your bot to OpenShift
+If all went right your bot replies and supports the following inputs:
+
+* /start
+![/start command](demo/telegram/botfather_start.png "/start command")
+* /hello
+![/hello command](demo/telegram/botfather_hello.png "/hello command")
+* /help
+![/help command](demo/telegram/botfather_help.png "/help command")
+* /caps your text
+![Caps text](demo/telegram/botfather_caps.png "Caps text")
+* Echoes messages
+![Echo text](demo/telegram/botfather_echo.png "Echo text")
+
+### Deploy your bot to OpenShift
 
 Coming soon …
 
 ## Notes
 
-Add `@Hello_Telegram_Bot` and send him a message to test the features in this tutorial.
+In Telegram, add [`@Hello_Telegram_Bot`](https://web.telegram.org/#/im?p=@Hello_Telegram_Bot) and send a message to test the features in this tutorial.
 
 Find more infos and documentation about `python-telegram-bot` at [https://github.com/python-telegram-bot/](https://github.com/python-telegram-bot/)
 
