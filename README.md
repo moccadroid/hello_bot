@@ -241,12 +241,12 @@ An important thing to note is that JSON has objects and lists. If you see `{}` t
 ```
 result["type"]
 ```
-This would result in `Feature`.
+This would result in `FeatureCollection`.
 
 But if you see `[]` somewhere that means you can't just access it straight away but you have to *loop* over the included elements.
 So if we want to print all the names of the hotspots we need to do this:
 ```python
-for features in result["features"]
+for features in result["features"]:
     print features["properties"]["NAME"]
 ```
 The result here would be `Wiener Linien WLAN`... 10 times... because that's how they roll! They named all their WLANs the same way :D
@@ -270,7 +270,7 @@ if "message" in messaging_event:
 
             # Iterate through each entry in the results
             for entry in result["features"]:
-                entry = create_generic_template_element(feature["properties"]["NAME"], "http://blog.wienerlinien.at/wp-content/uploads/2016/04/header_wifi.jpg", entry["properties"]["ADRESSE"])
+                entry = create_generic_template_element(entry["properties"]["NAME"], "http://blog.wienerlinien.at/wp-content/uploads/2016/04/header_wifi.jpg", entry["properties"]["ADRESSE"])
 
                 # Add each wifi router to the list we've created above
                 entries.append(entry)
